@@ -37,7 +37,7 @@ const ShowPrompt: FC<Props> = async({params}) => {
 
     const prompt = await getPrompt(parseInt(params.id))
 
-    const {id, title, desc, inserts,  insertDescs,  price,  liveListing, displayPhotos,  apiName,  categories} = prompt!
+    const {id, title, desc, inserts,  insertDescs,  price,  liveListing,  apiName,  categories} = prompt!
     
 
     //Needs livelisting as a safety to make sure that unlisted prompts dont go live.

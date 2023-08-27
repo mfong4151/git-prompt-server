@@ -1,6 +1,6 @@
 "use client"
 
-import React, { FC, useState } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 import BuyTerminal from './BuyTerminal'
 import CallOutput from './CallOutput'
 import useErrors from '@/hooks/useErrors'
@@ -32,7 +32,7 @@ const handleAdLibErrors = (adLibs:string[], expectedLibs: number): [boolean, str
 const BuyPrompt: FC<Props> = ({promptId, insertDescs}) => {
     const [callOutput, setCallOutput] = useState<string>('')
     const [adLibs, setAdLibs] = useState<string[]>(Array(insertDescs.length).fill(''))
-    const [errors, setErrors, clearErrorsEffect] = useErrors()
+    const [errors, setErrors, useClearErrorsEffect] = useErrors()
 
     //Temporary testing variables
     const userId: number = 1;
@@ -61,7 +61,7 @@ const BuyPrompt: FC<Props> = ({promptId, insertDescs}) => {
     
     }
     
-    clearErrorsEffect([callOutput, adLibs])
+    useClearErrorsEffect([callOutput, adLibs])
 
     return (
     <div className='ude'>

@@ -7,7 +7,7 @@ type ErrorsHook = [string[], StateSetter<string[]>, (dependencies: any[]) => voi
 const useErrors = () : ErrorsHook => {
     const [errors, setErrors] = useState<string[]>([])
 
-    const clearErrorsEffect = (dependencies: any[])=> (
+    const useClearErrorsEffect = (dependencies: any[])=> (
 
         useEffect(()=>{
             setErrors([])
@@ -18,7 +18,7 @@ const useErrors = () : ErrorsHook => {
     
 
 
-  return [errors, setErrors, clearErrorsEffect]
+  return [errors, setErrors, useClearErrorsEffect]
 }
 
 export default useErrors

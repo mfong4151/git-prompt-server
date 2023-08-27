@@ -11,7 +11,6 @@ export const getPrompt = (promptId:number) =>(
           insertDescs: true,
           price: true,
           liveListing: true,    
-          displayPhotos: true,
           apiName: true,
           categories:true,
         },
