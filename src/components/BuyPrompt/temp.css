@@ -1,0 +1,36 @@
+
+.ude{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.udc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pannels{
+    min-height: 300px;
+    width:50vw
+}
+
+.pannels > button{
+     
+    width:200px;
+    height:50px;
+    color: black;
+    background-color: white;
+}
+
+.buy-terminal{
+    background-color: white;
+    color:black;
+    border: solid red 2px;
+}
+
+.insert{
+    background-color: white;
+    color: black;
+}

@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User{
+  id                  Int       @id @default(autoincrement())
+  email               String    @unique 
+  hashedPassword      String?   @map("hashed_password")
+  displayName         String?   @unique @map("display_name")
+  sessionToken        String?   @unique @map("session_token")
+  credits             Int       @default(0)
+   transactionAsBuyer Transaction[] @relation("BuyerTransactions")
+  transactionAsSeller Transaction[] @relation("SellerTransactions")
+  promptsAuthored Prompt[] @relation("PromptAuthor")
+  buyersPurchase PastPurchase[] @relation("BuyersPurchase")
+  sellersProduction PastPurchase[] @relation("SellersProduction")
+  @@map("users")
+}
+
+
+
+model Transaction{
+  id Int @id @default(autoincrement())
+  buyerId Int  @map("buyer_id")
+  sellerId Int @map("seller_id")
+  promptId Int @map("prompt_id")
+  amount Float
+  numTokens Int?@map("num_tokens") //Number of tokens consumed by the api. Not sure if all api providers will use a tokens infrastructure.
+  buyer User @relation("BuyerTransactions", fields:[buyerId], references: [id])
+  seller User @relation("SellerTransactions",fields:[sellerId], references:[id])
+  prompt Prompt @relation("PurchasedPrompt", fields:[promptId], references:[id])
+
+  @@map("transactions")
+}
+
+
+model PastPurchase{
+  id Int @id @default(autoincrement())
+  buyerId Int  @map("buyer_id")
+  sellerId Int @map("seller_id")
+  promptId Int @map("prompt_id")
+  aiResponse String @map("ai_response")
+  buyer User @relation("BuyersPurchase", fields:[buyerId], references: [id])
+  seller User @relation("SellersProduction",fields:[sellerId], references:[id])
+  prompt Prompt @relation("PastPrompt", fields:[promptId], references:[id])
+    
+}
+
+model Prompt{
+  id Int @id @default(autoincrement())
+  author User @relation("PromptAuthor", fields: [authorId], references:[id])
+  authorId Int @map("author_id")
+  title String
+  desc String
+  inserts String[]
+  insertIdxs Int[] @map("insert_idxs")
+  insertDescs String[] @map("insert_descs")
+  body String
+  categories String[]
+  price Float
+  apiName String @map("api_name")
+  liveListing Boolean @map("live_listing")
+  promptPurchased Transaction[] @relation("PurchasedPrompt")
+  pastPrompt PastPurchase[] @relation("PastPrompt")
+
+  @@map("prompts")
+}
